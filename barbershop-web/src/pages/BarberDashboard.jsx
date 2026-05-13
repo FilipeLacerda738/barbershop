@@ -43,9 +43,14 @@ export function BarberDashboard() {
           <h2 className="text-2xl font-bold text-white">Minha Agenda</h2>
           
           {user?.role === 'owner' && (
-            <Link to="/manage-services" className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300 hover:bg-zinc-700">
-              Gerenciar Serviços
-            </Link>
+            <div className="flex gap-2">
+              <Link to="/manage-services" className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white">
+                Gerenciar Serviços
+              </Link>
+              <Link to="/manage-professionals" className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white">
+                Minha Equipe
+              </Link>
+            </div>
           )}
         </div>
 

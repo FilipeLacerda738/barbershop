@@ -27,6 +27,15 @@ const UserSchema = new mongoose.Schema(
       enum: ['client', 'admin', 'owner'],
       default: 'client',
     },
+
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    passwordResetExpires: {
+      type: Date,
+      select: false,
+    },
   },
 
   {

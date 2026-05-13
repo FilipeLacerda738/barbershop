@@ -17,19 +17,34 @@ class ProfessionalController {
     return res.json(professionals);
   }
 
+
   async create(req, res) {
     const professionalSchema = z.object({
       name: z.string().min(3, 'O nome deve ter pelo menos 3 caracteres.'),
       email: z.string().email('Formato de e-mail inválido.'),
-      password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres.'),
+      password: z.string().min(6, 'A senha deve ter no mínimo 6 caracteres.').optional(),
       phone: z.string().optional(),
     });
 
     const parsedData = professionalSchema.parse(req.body);
 
     const userExists = await User.findOne({ email: parsedData.email });
+
     if (userExists) {
-      throw new AppError('Este e-mail já está em uso.', 400);
+      if (userExists.role === 'admin' || userExists.role === 'owner') {
+        throw new AppError('Este usuário já faz parte da equipe.', 400);
+      }
+
+      userExists.role = 'admin';
+      userExists.name = parsedData.name; 
+      await userExists.save();
+
+      userExists.password = undefined; 
+      return res.status(200).json(userExists);
+    }
+
+    if (!parsedData.password) {
+        throw new AppError('A senha é obrigatória para registrar um novo barbeiro.', 400);
     }
 
     const hashedPassword = await bcrypt.hash(parsedData.password, 10);

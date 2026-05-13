@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 3333;
 
-// Tratamento para banco caiu do nada
+
 process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED REJECTION Desligando o servidor...');
   console.error(err.name, err.message);
@@ -20,8 +20,6 @@ process.on('uncaughtException', (err) => {
   console.error(err.name, err.message);
   process.exit(1);
 });
-
-
 
 
 connectDB().then(() =>{

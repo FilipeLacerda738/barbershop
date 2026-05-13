@@ -7,6 +7,7 @@ import { PrivateRoute } from './PrivateRoute';
 import { ForgotPassword } from '../pages/ForgotPassword';
 import { ManageServices } from '../pages/ManageServices';
 import { ManageProfessionals } from '../pages/ManageProfessionals';
+import { ResetPassword } from '../pages/ResetPassword';
 
 export function AppRoutes() {
   return (
@@ -43,9 +44,11 @@ export function AppRoutes() {
         />
         
         <Route path="/forgot-password" element={<ForgotPassword />} />
-      </Routes>
-      
-      <Route 
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        
+        <Route 
           path="/manage-professionals" 
           element={
             <PrivateRoute>
@@ -53,6 +56,12 @@ export function AppRoutes() {
             </PrivateRoute>
           } 
         />
+
+        
+        
+      </Routes>
+
+      
     </BrowserRouter>
   );
 }
