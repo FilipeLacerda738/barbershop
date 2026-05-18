@@ -11,11 +11,12 @@ const UserSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [false, 'O email é obrigatório'],
+      required: [true, 'O email é obrigatório'],
     },
     phone: {
       type: String,
-      required: [true, 'O telefone é obrigatório'],
+      required: [false],
+      default: ''
     },
     password: {
       type: String,
