@@ -23,7 +23,8 @@ class PasswordController {
     await user.save();
 
   
-    const resetURL = `http://localhost:5173/reset-password?token=${resetToken}`;
+    
+    const resetURL = `https://barbershop-alpha-wheat.vercel.app/reset-password?token=${resetToken}`;
 
     const message = `
       <h2>Recuperação de Senha</h2>
