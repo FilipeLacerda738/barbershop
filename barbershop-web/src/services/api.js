@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:3333/api',
+  // baseURL: 'http://localhost:3333/api',
+  baseURL: 'https://barbershop-2hyf.onrender.com/api'
 });
 
 if(import.meta.env.DEV){
