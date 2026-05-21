@@ -19,8 +19,8 @@ async function sendEmail({ to, subject, body }) {
 
   if (!response.ok) {
     const errorData = await response.json();
-    console.error('Erro na API do Brevo:', errorData);
-    throw new Error('Falha ao enviar e-mail via API');
+    console.error('Erro na API:', errorData);
+    throw new Error('Falha ao enviar e-mail');
   }
 }
 
