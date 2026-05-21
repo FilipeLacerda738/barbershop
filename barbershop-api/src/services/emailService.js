@@ -1,8 +1,9 @@
 const nodemailer = require('nodemailer');
+const { preprocess } = require('zod');
 
 const transport = nodemailer.createTransport({
-  host: 'smtp-relay.brevo.com',
-  port: 587,
+  host: process.env.MAILTRAP_HOST,
+  port: process.env.MAILTRAP_PORT,
   secure: false, 
   auth: {
     user: process.env.MAILTRAP_USER,
