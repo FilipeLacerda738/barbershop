@@ -9,6 +9,7 @@ professionalRoutes.use(verifyOwner);
 
 professionalRoutes.get('/', ProfessionalController.list);
 professionalRoutes.post('/', ProfessionalController.create);
+professionalRoutes.put('/:id', ProfessionalController.update);
 professionalRoutes.delete('/:id', ProfessionalController.delete);
 
 module.exports = professionalRoutes;

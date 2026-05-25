@@ -11,13 +11,12 @@ class AppointmentController {
       providerId: z.string().min(1, 'ID do barbeiro é obrigatório'),
       serviceId: z.string().min(1, 'ID do serviço é obrigatório'),
       date: z.string().datetime({ 
-      offset: true, 
-      message: 'Formato de data inválido. Use ISO-8601' 
-  }),
-});
+        offset: true, 
+        message: 'Formato de data inválido. Use ISO-8601' 
+      }),
+    });
 
     const { providerId, serviceId, date } = appointmentSchema.parse(req.body);
-
     const appointmentDate = parseISO(date);
     
     if (isBefore(appointmentDate, new Date())) {
@@ -26,8 +25,9 @@ class AppointmentController {
 
     const hourStart = startOfHour(appointmentDate);
 
-    const isProvider = await User.findOne({ _id: providerId, role: 'admin' });
-    if (!isProvider) {
+    
+    const providerUser = await User.findOne({ _id: providerId, isProvider: true });
+    if (!providerUser) {
       throw new AppError('O profissional escolhido não existe ou não atende.', 404);
     }
 
@@ -70,7 +70,6 @@ class AppointmentController {
 
   async cancel(req, res) {
     const { id } = req.params;
-
     const appointment = await Appointment.findById(id);
 
     if (!appointment) {
@@ -103,10 +102,10 @@ class AppointmentController {
       throw new AppError('A data é obrigatória.', 400)
     }
     
-    // Apenas admins podem acessar a própria agenda
-    const checkIsProvider = await User.findOne({_id: req.user.id, role: 'admin'});
+    
+    const checkIsProvider = await User.findOne({_id: req.user.id, isProvider: true});
     if(!checkIsProvider){
-      throw new AppError('Acesso negado');
+      throw new AppError('Acesso negado. Apenas profissionais podem ver a própria agenda.', 403);
     }
 
     const parsedDate = parseISO(date);
@@ -117,18 +116,17 @@ class AppointmentController {
         $gte: startOfDay(parsedDate),
         $lte: endOfDay(parsedDate),
       },
-      status: { $ne: 'cancelled' } // esconde os cancelados
+      status: { $ne: 'cancelled' } 
     })
-    .populate('client', 'name phone') // nome e telefone do cliente
-    .populate('service', 'name price') // qual serviço
-    .sort('date') // Ordena do primeiro horário do dia para o último
+    .populate('client', 'name phone') 
+    .populate('service', 'name price') 
+    .sort('date'); 
 
     return res.json(appointments);
   }
 
   async delete(req, res){
     const { id } = req.params;
-
     const appointment = await Appointment.findById(id);
 
     if(!appointment){
@@ -141,6 +139,7 @@ class AppointmentController {
     return res.json({ message: 'Agendamento cancelado.' })
   }
 
+  
   async updateStatus(req, res){
     const { id } = req.params;
     const { status } = req.body;
@@ -150,10 +149,24 @@ class AppointmentController {
       return res.status(400).json({ message: 'Status inválido.' });
     }
 
-    const appointment = await Appointment.findById(id);
+    
+    const appointment = await Appointment.findById(id)
+      .populate('service')
+      .populate('provider');
 
     if(!appointment){
       return res.status(404).json({ message: 'Agendamento não encontrado' })
+    }
+
+    if (status === 'completed' && appointment.status !== 'completed') {
+      const servicePrice = appointment.service.price || 0;
+      const providerCommissionRate = appointment.provider.commissionRate || 0;
+      
+      
+      appointment.price = servicePrice;
+      appointment.commissionRateSnapshot = providerCommissionRate;
+      
+      appointment.commissionAmount = servicePrice * (providerCommissionRate / 100);
     }
 
     appointment.status = status;

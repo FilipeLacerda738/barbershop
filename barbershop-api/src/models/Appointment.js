@@ -26,15 +26,35 @@ const AppointmentSchema = new mongoose.Schema(
       enum: ['pending', 'confirmed', 'completed', 'cancelled', 'no-show'],
       default: 'pending',
     },
+    
+ 
+    price: {
+      type: Number,
+      
+    },
+    commissionRateSnapshot: {
+      type: Number,
+      
+    },
+    commissionAmount: {
+      type: Number,
+      
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['pending', 'paid'],
+      default: 'pending',
+    },
+
     cancellationReason: {
       type: String,
-      
     },
   },
   {
     timestamps: true,
   }
 );
+
 AppointmentSchema.index({ provider: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.model('Appointment', AppointmentSchema);

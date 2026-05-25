@@ -8,6 +8,7 @@ import { ForgotPassword } from '../pages/ForgotPassword';
 import { ManageServices } from '../pages/ManageServices';
 import { ManageProfessionals } from '../pages/ManageProfessionals';
 import { ResetPassword } from '../pages/ResetPassword';
+import { FinancialDashboard } from '../pages/FinancialDashboard';
 
 export function AppRoutes() {
   return (
@@ -55,6 +56,10 @@ export function AppRoutes() {
               <ManageProfessionals />
             </PrivateRoute>
           } 
+        />
+
+        <Route path="/finances" 
+        element={<FinancialDashboard />} 
         />
 
         

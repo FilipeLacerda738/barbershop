@@ -6,7 +6,7 @@ const AppError = require('../errors/AppError');
 class ProviderController {
   
   async list(req, res) {
-    const providers = await User.find({ role: 'admin' }).select('-password');
+    const providers = await User.find({ isProvider: true }).select('-password');
     return res.json(providers);
   }
 
@@ -20,9 +20,9 @@ class ProviderController {
 
     const parsedDate = parseISO(date); 
 
-    const provider = await User.findOne({ _id: id, role: 'admin' });
+    const provider = await User.findOne({ _id: id, isProvider: true });
     if (!provider) {
-      throw new AppError('Profissional não encontrado.', 404);
+      throw new AppError('Profissional não encontrado ou não está prestando serviços.', 404);
     }
 
     const appointments = await Appointment.find({

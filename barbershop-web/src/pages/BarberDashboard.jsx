@@ -43,12 +43,15 @@ export function BarberDashboard() {
           <h2 className="text-2xl font-bold text-white">Minha Agenda</h2>
           
           {user?.role === 'owner' && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Link to="/manage-services" className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white">
                 Gerenciar Serviços
               </Link>
               <Link to="/manage-professionals" className="rounded bg-zinc-800 px-3 py-1 text-sm text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white">
                 Minha Equipe
+              </Link>
+              <Link to="/finances" className="rounded bg-emerald-600 px-3 py-1 text-sm font-bold text-white transition-colors hover:bg-emerald-500 shadow-lg shadow-emerald-500/20">
+                Caixa e Finanças
               </Link>
             </div>
           )}
