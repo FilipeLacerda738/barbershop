@@ -11,7 +11,7 @@ O **Barbershop** é uma plataforma completa para a gestão de barbearias e salõ
 * **Histórico de Agendamentos:** Painel para o cliente acompanhar as suas reservas passadas, status atuais (pendente, confirmado, concluído, faltou) ou realizar cancelamentos.
 
 ## Ferramentas Administrativas & do Dono 
-* **Paradoxo do Dono-Barbeiro:** O usuário com cargo de dono (`owner`) pode ativar a sua própria agenda para receber marcações de clientes, acumulando funções administrativas e operacionais perfeitamente.
+* **Dono-Barbeiro:** O usuário com cargo de dono (`owner`) pode ativar a sua própria agenda para receber marcações de clientes, acumulando funções administrativas e operacionais perfeitamente.
 * **Gestão Dinâmica de Equipe:** Painel exclusivo para o dono contratar novos barbeiros, demitir, alterar cargos (`admin`, `owner`, `client`) e configurar a porcentagem (%) de comissão individual de cada um.
 * **Motor Financeiro Imutável:** Quando um agendamento é marcado como "Concluído", a API grava uma "fotografia" imutável do preço do serviço e da comissão do profissional naquele instante, protegendo o caixa contra alterações futuras de preço.
 * **Dashboard de Fluxo de Caixa (`/finances`):** Painel financeiro em tempo real que exibe:
